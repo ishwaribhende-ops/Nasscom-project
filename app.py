@@ -1,11 +1,11 @@
 import os, json, re, datetime
 import requests, anthropic
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, abort, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 
 load_dotenv()
-app = Flask(__name__, static_folder="static", static_url_path="")
+app = Flask(__name__, static_folder=None)
 CORS(app, origins=os.getenv("ALLOWED_ORIGINS", "*").split(","))
 client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from .env
 MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-5-5")
@@ -38,7 +38,14 @@ def save_row(kind, inputs, result):
 
 @app.route("/")
 def home():
-    return send_from_directory("static", "index.html")
+    return send_from_directory(os.path.join(app.root_path, "public"), "index.html")
+
+
+@app.get("/<path:filename>")
+def static_files(filename):
+    if filename not in {"script.js", "style.css"}:
+        abort(404)
+    return send_from_directory(os.path.join(app.root_path, "public"), filename)
 
 
 @app.post("/api/analyze")

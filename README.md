@@ -5,12 +5,12 @@ Dark glassmorphism BFSI web app: loan eligibility, credit score analyzer, EMI ca
 ## Structure
 ```
 loan-checker/
-├── app.py              # Flask proxy: /api/analyze, serves static/
+├── app.py              # Flask app and /api/analyze endpoint
+├── Code.gs             # Google Apps Script doPost
 ├── requirements.txt
 ├── .env.example        # copy to .env
 ├── .gitignore
-├── apps_script/Code.gs # Google Apps Script doPost
-└── static/
+└── public/
     ├── index.html
     ├── style.css
     └── script.js
@@ -33,9 +33,11 @@ python app.py           # open http://localhost:5000
 5. Tabs `eligibility` and `credit` are created automatically on first submission (columns: Timestamp, Inputs, Result). Names are removed from the AI payload, so they are not stored.
 
 ## Deployment
+**Vercel:** import this GitHub repository in Vercel and keep the project root (`./`). Vercel detects the Flask app in `app.py`; frontend assets in `public/` are served as static files. Add `ANTHROPIC_API_KEY` in **Project Settings → Environment Variables**; optionally add `CLAUDE_MODEL` and `SHEETS_URL`. Redeploy after adding environment variables. The AI API will not work until `ANTHROPIC_API_KEY` is configured.
+
 **Render (recommended, full stack):** push to GitHub → New Web Service → Build `pip install -r requirements.txt` → Start `gunicorn app:app` → add env vars `ANTHROPIC_API_KEY`, `SHEETS_URL`, `CLAUDE_MODEL`.
 
-**Netlify / GitHub Pages (frontend only):** deploy the `static/` folder, deploy the backend on Render, then set `window.API_BASE = "https://your-app.onrender.com"` in `index.html` and `ALLOWED_ORIGINS=https://your-site.netlify.app` on Render.
+**Netlify / GitHub Pages (frontend only):** deploy the `public/` folder, deploy the backend on Render, then set `window.API_BASE = "https://your-app.onrender.com"` in `public/index.html` and `ALLOWED_ORIGINS=https://your-site.netlify.app` on Render.
 
 Never commit `.env`. Free Render instances sleep, so the first request may be slow.
 
