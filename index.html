@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Loan Eligibility Checker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="glass side">
+    <h1>💠 LoanIQ</h1>
+    <nav class="nav">
+      <button data-tab="elig" class="active">🏦 Loan Eligibility</button>
+      <button data-tab="credit">📈 Credit Score</button>
+      <button data-tab="emi">🧮 EMI Calculator</button>
+      <button data-tab="chat">💬 AI Finance Tips</button>
+    </nav>
+    <p class="note">Informational only. Not official financial advice.</p>
+  </aside>
+  <main>
+    <section id="elig" class="tab active">
+      <h2>Loan Eligibility Checker</h2>
+      <form class="glass grid" id="f-elig" novalidate></form>
+      <div id="r-elig"></div>
+    </section>
+    <section id="credit" class="tab">
+      <h2>Credit Score Analyzer</h2>
+      <form class="glass grid" id="f-credit" novalidate></form>
+      <div id="r-credit"></div>
+    </section>
+    <section id="emi" class="tab">
+      <h2>EMI Calculator</h2>
+      <form class="glass grid" id="f-emi" novalidate></form>
+      <div id="r-emi"></div>
+    </section>
+    <section id="chat" class="tab">
+      <h2>AI Financial Tips</h2>
+      <div class="glass">
+        <div class="chips" id="chips"></div>
+        <div id="log" class="log"></div>
+        <div class="row"><input id="q" placeholder="Ask a finance question…" maxlength="500"><button class="btn" id="send">Send</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>window.API_BASE = ""; // set to your Render URL when hosting frontend separately (Netlify/GitHub Pages)</script>
+<script src="script.js"></script>
+</body>
+</html>
